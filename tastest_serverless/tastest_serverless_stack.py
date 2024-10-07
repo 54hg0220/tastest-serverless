@@ -60,7 +60,7 @@ class TastestServerlessStack(Stack):
                 "DB_USER": "admin",
                 "DB_PASSWORD": "JxUFKFqhOzNe5b4oc2jf"
             },
-            layers=[pymysql_layer]  # 添加这一行
+            layers=[pymysql_layer] #Lambda layer
         )
 
         # 添加RDS访问权限
