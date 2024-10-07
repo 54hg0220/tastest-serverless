@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "tastest-serverless"
+version = "0.1.0"
+description = ""
+authors = ["54hg0220 <huangguan0220@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+aws-cdk-lib = "^2.161.1"
+constructs = "^10.3.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+pymysql = "^1.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
