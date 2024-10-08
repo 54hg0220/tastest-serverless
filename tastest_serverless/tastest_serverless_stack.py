@@ -98,7 +98,11 @@ class TastestServerlessStack(Stack):
         queue.grant_consume_messages(mediapipe_lambda)
 
         # Configure SQS to trigger the second Lambda
-        mediapipe_lambda.add_event_source(SqsEventSource(queue, batch_size=1))
+        mediapipe_lambda.add_event_source_mapping(
+            "SQSTrigger",
+            event_source_arn=queue.queue_arn,
+            batch_size=1
+        )
 
         first_lambda.add_to_role_policy(iam.PolicyStatement(
             actions=[
