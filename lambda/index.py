@@ -12,26 +12,36 @@ def handler(event, context):
         )
 
         with conn.cursor() as cursor:
-            cursor.execute("SHOW DATABASES")
-            databases = cursor.fetchall()
-
-            cursor.execute("SELECT NOW() AS `current_time`")
-            current_time = cursor.fetchone()
+            # 使用 tastest2 数据库
+            cursor.execute("USE tastest2")
+            
+            # 执行指定的查询
+            query = """
+            SELECT t.collection_id, t.candidate_session_id, s.candidate_id 
+            FROM test_result_files t 
+            JOIN candidate_sessions s ON s.id = t.candidate_session_id 
+            WHERE t.id = "1OD_YGbrPK9aLAGJyPLC1"
+            """
+            cursor.execute(query)
+            result = cursor.fetchone()
 
         return {
             'statusCode': 200,
             'body': json.dumps({
-                'message': 'Successfully connected to RDS',
-                'current_time': str(current_time[0]) if current_time else None,
-                'databases': [db[0] for db in databases]
-            }, default=str)  # 使用 default=str 来处理可能的日期时间对象
+                'message': 'Query executed successfully',
+                'result': {
+                    'collection_id': result[0] if result else None,
+                    'candidate_session_id': result[1] if result else None,
+                    'candidate_id': result[2] if result else None
+                }
+            }, default=str)
         }
     except Exception as e:
         print(f"Error: {str(e)}")
         return {
             'statusCode': 500,
             'body': json.dumps({
-                'message': 'Failed to connect to RDS',
+                'message': 'Failed to execute query',
                 'error': str(e)
             })
         }

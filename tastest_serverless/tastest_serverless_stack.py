@@ -44,7 +44,7 @@ class TastestServerlessStack(Stack):
             description="Layer with pymysql library"
         )
 
-        # 修改 Lambda 函数创建部分
+        # Lambda 创建
         lambda_function = aws_lambda.Function(
             self, "RDSAccessFunction",
             runtime=aws_lambda.Runtime.PYTHON_3_9,
