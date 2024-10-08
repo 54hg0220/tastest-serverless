@@ -12,12 +12,10 @@ def handler(event, context):
         )
 
         with conn.cursor() as cursor:
-            # 使用 tastest2 数据库
-            cursor.execute("USE tastest2")
             
             # 执行指定的查询
             query = """
-            SELECT t.collection_id, t.candidate_session_id, s.candidate_id 
+            SELECT t.collection_id, t.candidate_session_id, s.candidate_id, t.test_id, t.type, t.id as file_name
             FROM test_result_files t 
             JOIN candidate_sessions s ON s.id = t.candidate_session_id 
             WHERE t.id = "1OD_YGbrPK9aLAGJyPLC1"
@@ -32,7 +30,10 @@ def handler(event, context):
                 'result': {
                     'collection_id': result[0] if result else None,
                     'candidate_session_id': result[1] if result else None,
-                    'candidate_id': result[2] if result else None
+                    'candidate_id': result[2] if result else None,
+                    'test_id': result[3] if result else None,
+                    'file_type': result[4] if result else None,
+                    'file_name': result[5] if result else None
                 }
             }, default=str)
         }
