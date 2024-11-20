@@ -79,27 +79,27 @@ def handler(event, context):
 
     try:
         for record in event['Records']:
-            # 解析 SQS 消息
+            # sqs message
             message_body = json.loads(record['body'])
             logger.info(f"Received message: {message_body}")
 
-            # 从 S3 下载视频
+            # video download
             bucket = 'tastest-german'
             key = f"tastest3German/{message_body['file_name']}"
             logger.info(f"Downloading video from S3: {bucket}/{key}")
             response = s3.get_object(Bucket=bucket, Key=key)
             video_data = response['Body'].read()
 
-            # 处理视频
+            # processing
             logger.info("Processing video")
             result = process_video(video_data)
 
-            # 上传结果到 S3
+            # upload S3
             result_key = f"results/{message_body['candidate_id']}/{message_body['test_id']}_results.json"
             logger.info(f"Uploading results to S3: {bucket}/{result_key}")
             s3.put_object(Bucket=bucket, Key=result_key, Body=json.dumps(result))
 
-            # 删除 SQS 消息
+            # Delete sqs messsage
             logger.info(f"Deleting message from SQS: {record['receiptHandle']}")
             sqs.delete_message(
                 QueueUrl=queue_url,
