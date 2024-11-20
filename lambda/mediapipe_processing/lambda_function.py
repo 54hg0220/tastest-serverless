@@ -3,8 +3,7 @@ import os
 import json
 import boto3
 import cv2
-import mediapipe as mp
-import numpy as np
+import mediapipe as mp # type: ignore
 import tempfile
 
 logger = logging.getLogger()

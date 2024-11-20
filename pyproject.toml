@@ -9,6 +9,8 @@ readme = "README.md"
 python = "^3.12"
 aws-cdk-lib = "^2.161.1"
 constructs = "^10.3.0"
+mediapipe = "^0.10.18"
+boto3-stubs = "^1.35.65"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
